@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Usuario:</label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña:</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <h2>Accesorios Roller</h2>
+    <div class="row">
+        {% for producto in productos %}
+            <div class="col-md-4 accesorios-container">
+                <div class="card">
+                    <button class="img-button" data-bs-toggle="modal" data-bs-target="#accesorioModal{{ producto.id }}">
+                        <img src="{{ producto.imagen.url }}" class="card-img-top img-thumbnail" alt="...">
+                    </button>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text">{{ producto.descripcion }}</p>
+                        <p class="card-text"><small class="text-body-secondary">Última actualización hace 3 minutos</small></p>
+                        <a href="{% url 'agregar_al_carrito' producto.id %}" class="btn btn-primary">Agregar al carrito</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% for producto in productos %}
+<div class="modal fade" id="accesorioModal{{ producto.id }}" tabindex="-1" aria-labelledby="accesorioModalLabel{{ producto.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accesorioModalLabel{{ producto.id }}">{{ producto.nombre }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="{{ producto.imagen.url }}" class="img-fluid" alt="...">
+                <p>{{ producto.descripcion }}</p>
+                <p>Precio: ${{ producto.precio }}</p>
+
+                
+                <div class="input-group mb-3">
+                    <button class="btn btn-outline-secondary" type="button" id="decrease{{ producto.id }}">-</button>
+                    <input type="text" class="form-control text-center" value="1" id="quantity{{ producto.id }}" readonly>
+                    <button class="btn btn-outline-secondary" type="button" id="increase{{ producto.id }}">+</button>
+                </div>
+                <a href="{% url 'agregar_al_carrito' producto.id %}" class="btn btn-primary">Agregar al carrito</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    document.querySelectorAll('.input-group').forEach(group => {
+        const decreaseButton = group.querySelector('button[id^="decrease"]');
+        const increaseButton = group.querySelector('button[id^="increase"]');
+        const quantityInput = group.querySelector('input[id^="quantity"]');
+        
+        decreaseButton.addEventListener('click', () => {
+            let quantity = parseInt(quantityInput.value);
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1;
+            }
+        });
+
+        increaseButton.addEventListener('click', () => {
+            let quantity = parseInt(quantityInput.value);
+            quantityInput.value = quantity + 1;
+        });
+    });
+</script>
+<script src="{% static 'js/header.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>

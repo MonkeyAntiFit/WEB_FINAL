@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    
+    <style>
+        .navbar-brand {
+            margin-right: 2rem;
+        }
+
+        .nav-link {
+            color: white !important;
+        }
+
+        .nav-item {
+            margin-right: 1rem;
+        }
+
+        .search-container {
+            margin-left: auto;
+        }
+
+        .login-btn {
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" target="_self">Sport Planet</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/skate">Skate</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/roller">Rollers</a>
+                    </li>
+                    <a class="nav-link active" aria-current="page" href="/surf">Surf</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="accesoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Accesorios</a>
+                    <ul class="dropdown-menu" aria-labelledby="accesoriosDropdown">
+                        <li><a class="dropdown-item" href="/accesorioskate" target="_self">SKATE 🛹</a></li>
+                        <li><a class="dropdown-item" href="/accesoriosurf" target="_self">SURF 🏄</a></li>
+                        <li><a class="dropdown-item" href="/accesorioroller" target="_self">PATINES 🛼</a></li>
+                    </ul>
+                </li>
+               
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/spots">Spots</a>
+                    </li>
+                    <li>{% if user.is_authenticated and user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'lista_productos' %}">Admin</a>
+                        </li>
+                    {% endif %}</li>
+                </ul>
+                <div class="search-container">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    </form>
+                </div>
+                <div class="login-btn">
+                    {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="loginDropdown">
+                                <li>
+                                    <form method="post" action="{% url 'logout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                    </form>
+                                </li>
+                                <li><a class="dropdown-item" href="/agregarUsuario">Registrar</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div class="dropdown">
+                            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Login
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="loginDropdown">
+                                <li><a class="dropdown-item" href="{% url 'login' %}">Ingresar</a></li>
+                                <li><a class="dropdown-item" href="/agregarUsuario">Registrar</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="cart-btn">
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#carritoModal">Carrito</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    {% block content %}
+    {% endblock %}
+    
+    <!-- Modal del carrito de compras -->
+    <div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="carritoModalLabel">Carrito de Compras</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="carritoContent">
+                        <!-- El contenido del carrito se cargará aquí -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <a href="{% url 'index' %}" class="btn btn-primary">Continuar Comprando</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Nuestro Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li>Teléfono: 123-456-789</li>
+                        <li>Correo electrónico: info@sportplanet.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Dirección</h5>
+                    <p>Alvarez 2440, Viña del mar, Chile</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Desarrolladores</h5>
+                    <ul class="list-unstyled">
+                        <li>Oskar Cubillos B.</li>
+                        <li>Benjamin Marchant</li>
+                        <li>Benjamin Stavrakopulos</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Comunidad</h5>
+                    <li><a href="{% url 'trabajaConNosotros' %}">Trabaja con Nosotros</a></li>
+                    <li><a href="{% url 'mapa' %}"> Encuentranos</a> </li>
+                </div>
+                <div class="col-md-4">
+                    <h5>Profesor Guia</h5>
+                    <ul class="list-unstyled">
+                        <li>Ignacio Cuturrufo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('.add-to-cart').click(function(event) {
+          event.preventDefault();
+          var url = $(this).attr('href');
+          $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(data) {
+              if (data.success) {
+                $('#carritoContent').load("{% url 'ver_carrito' %}", function() {
+                  $('#carritoModal').modal('show');
+                });
+              }
+            },
+            error: function() {
+              alert('Error al agregar el producto al carrito.');
+            }
+          });
+        });
+
+        $('#carritoModal').on('show.bs.modal', function() {
+          $('#carritoContent').load("{% url 'ver_carrito' %}");
+        });
+      });
+    </script>
+    {% endblock %}
+</body>
+</html>

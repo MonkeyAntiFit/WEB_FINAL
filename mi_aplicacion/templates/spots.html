@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+    <h1>Encuentra los mejores Spots para practicar tu deporte favorito.</h1>
+    <p>¡Te dejamos algunos lugares, para que los visites!.</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Playa "La Boca, Con Con."</h2>
+                <p>¡Increible Playa para aprender los trucos mas basicos!.</p>
+                <div id="mapSurf"></div>
+            </div>
+            <div class="col-md-6">
+                <h2>Playa "Reñaca" 5to sector, viña del mar".</h2>
+                <p>¡Una playa de dificultad media para deportistas mas avanzados!.</p>
+                <div id="mapSurf2"></div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./js/header.js"></script>
+    <script src="./js/popup_logic.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <img src="{% static 'images/logo.png' %}" alt="Logo">
+</body>
+</html>

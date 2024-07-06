@@ -1,0 +1,24 @@
+.carousel-img {
+    max-width: 100%;
+    height: 400px; /* Establece la altura deseada */
+    object-fit: cover; /* Ajusta la imagen dentro del contenedor sin distorsionarla */
+}
+
+.carousel {
+    max-width: 400px; /* Cambia el ancho maximo del carrusel*/
+    margin: auto; /* Centra el carrousel horizontalmente*/
+}
+
+.container {
+    margin-top: 20px; /* Puedes ajustar el valor según la separación deseada */
+}
+
+.skate-container {
+    margin-bottom: 20px; /* Ajusta el valor según tu preferencia */
+}
+
+.card-img-top {
+    height: 450px; /* Ajusta la altura según tu preferencia */
+    object-fit: cover; /* Para asegurar que la imagen cubra todo el espacio */
+}
+

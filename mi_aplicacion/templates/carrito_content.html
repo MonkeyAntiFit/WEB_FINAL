@@ -1,0 +1,34 @@
+
+{% load custom_filters %}
+
+{% if carrito %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in carrito %}
+        <tr>
+            <td>{{ item.producto.nombre }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>${{ item.producto.precio }}</td>
+            <td>${{ item.producto.precio|multiply:item.cantidad }}</td>
+            <td>
+                <a href="{% url 'eliminar_del_carrito' item.producto.id %}" class="btn btn-danger">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="text-end">
+    <h4>Total: ${{ total }}</h4>
+</div>
+{% else %}
+<p>No hay productos en el carrito.</p>
+{% endif %}
